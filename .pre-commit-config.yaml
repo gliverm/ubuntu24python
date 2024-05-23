@@ -1,0 +1,27 @@
+# If git is performed outside the container this pre-commit will not be found
+# Note that pre-commit cannot be strictly enforced as developers know how to get around this
+# All validations should also be done within the CI/CD pipeline
+# Commits must be done within the project docker container for pre-commit logic to operate
+
+repos:
+  - repo: https://github.com/psf/black
+    rev: 24.4.2
+    hooks:
+      - id: black
+        # It is recommended to specify the latest version of Python
+        # supported by your project here, or alternatively use
+        # pre-commit's default_language_version, see
+        # https://pre-commit.com/#top_level-default_language_version
+        language_version: python3.12
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: '1.7.8'
+
+    hooks:
+    -   id: bandit
+        # Python vulnerability check
+        args:
+          - --skip
+          - B410,B320  # defusedxml changes moved into lxml
+          - --exclude
+          - locustfiles/tests
