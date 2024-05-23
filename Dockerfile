@@ -100,7 +100,7 @@
     RUN echo "===> Installing python pkgs . . ." && \
         pipenv install --dev --deploy --system && \
         pip install --upgrade --no-cache-dir pylint flake8 bandit black
-    WORKDIR /code/
+    WORKDIR /app/
     
     # ------------------------------
     # IMAGE: Target 'builder' builds production app utilizing pipenv
@@ -110,15 +110,29 @@
     # docker run -it --rm --name app app:app 
     # docker run -it --rm app:app base
     # ------------------------------
-    FROM pythonbase as app
+    FROM pythonbase as builder
     RUN echo "===> Installing specific python package versions ..."
     WORKDIR /
     COPY Pipfile .
     COPY Pipfile.lock .
-    RUN pipenv install --system --deploy --ignore-pipfile
-    COPY ./locustfiles /locustfiles/
-    RUN echo "===> Setting working directories..." && \
-        mkdir /config
-    VOLUME /config
-    CMD ["locust", "--help"]
-    
+    RUN pipenv install --system --deploy
+    COPY ./app /app
+    RUN echo "===> Building toolbox application runtime . . ." && \
+        pyinstaller \
+            --onefile \
+            app/hello_world.py && \
+        ls && \
+        ls dist/hello_world
+
+# ------------------------------
+# IMAGE: Target 'app' for final production app build
+# docker build --file Dockerfile --target app -t app:app .
+# docker run -it --rm --name app app:app sh
+# Using volumnes with a username different than host is problematic: https://github.com/moby/moby/issues/2259
+# ------------------------------
+FROM base as app
+WORKDIR /
+RUN echo "===> Install toolbox ..."
+COPY --from=builder /dist/toolbox /opt/toolbox
+WORKDIR /hello_world
+RUN ["hello_world"]
