@@ -8,7 +8,7 @@ from loguru import logger
 singlelogger = None
 
 
-def getlogger(name: str = "CalixLocust", level="DEBUG") -> logger:
+def getlogger(name: str = "DefaultName", level="DEBUG") -> logger:
     """Initialize logging for app returning logger."""
     global singlelogger
 

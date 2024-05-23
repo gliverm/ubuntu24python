@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+loguru = "*"
+
+[dev-packages]
+black = "*"
+pylint = "*"
+flake8 = "*"
+testfixtures = "*"
+pytest-html = "*"
+pytest-csv = "*"
+pytest-asyncio = "*"
+pre-commit = "*"
+
+[requires]
+python_version = "3.12"
