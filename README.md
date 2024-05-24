@@ -1,20 +1,23 @@
 # ubuntu24python
 
-This is a very basic example of creating a Python project developing inside a docker container using VSCode.
+This is a very basic example of creating a Python project developing inside a docker container using VSCode.  
 
 The following is very short bullet point description of goals:
 
+* Used for demo purpose
+* Shared with others who would like a simplle project that works to investigate
+* Re-usable base to start building a python project within a container
 * Developing within docker container
 * Automation of development environment spin-up with VSCode 
 * Use of pipenv to separate development only Python pkgs to prod Python pkgs
 * Use of precommit for the very basics - Note the CICD pipeline is the ultimate enforcer
-* Debug launch
-* Hints of how some would can be done in CICD pipeline but no pipeline files included
+* Debug example in .vscode/launch.json
+* Hints of how some would can be done in CICD pipeline but no pipeline files included via the Makefile to be executed outside VSC.
 
 
 What this example is not:
 
-* Complex or all-encompassing Python project format
+* Complex or all-encompassing Python project
 * CICD pipeline example
 
 ## Development Enviornment 
