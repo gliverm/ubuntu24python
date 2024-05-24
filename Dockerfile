@@ -85,6 +85,8 @@
     # Install the latest static code analysis tools
     # docker build --file Dockerfile --target qa -t app-qa .
     # docker run -it --rm app-qa
+    # docker run -it --rm -v ${PWD}:/code hello-world-qa:test sh
+    # docker run -it --rm -v ${PWD}:/code hello-world-qa:test 
     # docker run -i --rm -v ${PWD}:/code app-qa pylint --exit-zero --rcfile=setup.cfg **/*.py
     # docker run -i --rm -v ${PWD}:/code app-qa flake8 --exit-zero
     # docker run -i --rm -v ${PWD}:/code app-qa bandit -r --ini setup.cfg
@@ -100,7 +102,7 @@
     RUN echo "===> Installing python pkgs . . ." && \
         pipenv install --dev --deploy --system && \
         pip install --upgrade --no-cache-dir pylint flake8 bandit black
-    WORKDIR /app/
+    WORKDIR /code/
     
     # ------------------------------
     # IMAGE: Target 'builder' builds production app utilizing pipenv
@@ -117,7 +119,7 @@
     COPY Pipfile.lock .
     RUN pipenv install --system --deploy
     COPY ./app /app
-    RUN echo "===> Building toolbox application runtime . . ." && \
+    RUN echo "===> Building application runtime . . ." && \
         pyinstaller \
             --onefile \
             app/hello_world.py && \
@@ -132,7 +134,7 @@
 # ------------------------------
 FROM base as app
 WORKDIR /
-RUN echo "===> Install toolbox ..."
-COPY --from=builder /dist/toolbox /opt/toolbox
-WORKDIR /hello_world
-RUN ["hello_world"]
+RUN echo "===> Install app ..."
+COPY --from=builder /dist/hello_world /opt/hello_world
+ENV PATH "$PATH:/opt"
+CMD ["hello_world"]

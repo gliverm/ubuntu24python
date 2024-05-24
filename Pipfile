@@ -15,6 +15,7 @@ pytest-html = "*"
 pytest-csv = "*"
 pytest-asyncio = "*"
 pre-commit = "*"
+bandit = "*"
 
 [requires]
 python_version = "3.12"
