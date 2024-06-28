@@ -58,7 +58,7 @@
     # hadolint ignore=DL3013
     RUN echo "===> Installing and Updating package management tools ..." && \
         python3 -m pip config set global.break-system-packages true && \
-        python3 -m pip install --no-cache-dir --upgrade pip && \
+        python3 -m pip install --no-cache-dir --upgrade --ignore-installed pip && \
         python3 -m pip install --no-cache-dir --upgrade setuptools && \
         python3 -m pip install --no-cache-dir --ignore-installed --upgrade wheel && \
         python3 -m pip install --no-cache-dir --upgrade pyinstaller && \

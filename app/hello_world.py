@@ -21,7 +21,7 @@ enforcement of the project.  Pre-commits are helpful for only the basics
 in a distributed non-enforced manner.
 """
 
-from app.lib.base_logger import getlogger
+from lib.base_logger import getlogger
 
 
 def main():
